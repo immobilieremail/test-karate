@@ -5,7 +5,7 @@ Background:
     * url 'http://localhost:' + port + '/api/audio/'
 
 Scenario: create audio
-    Given multipart field audio = read('/home/louis/Musique/applause.wav')
+    Given multipart field audio = read('audios/applause.wav')
     When method post
     Then status 200
     And match response == { type: 'ocap', ocapType: 'AudioEdit', url: '#notnull' }
