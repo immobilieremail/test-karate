@@ -4,7 +4,7 @@ Background:
     * def port = 8000
     * url 'http://localhost:' + port + '/api/audio/'
 
-Scenario: create audio
+Scenario: create and delete audio
     Given multipart field audio = read('audios/applause.wav')
     When method post
     Then status 200

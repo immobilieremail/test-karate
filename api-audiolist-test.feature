@@ -4,27 +4,8 @@ Background:
     * def port = 8000
     * url 'http://localhost:' + port + '/api/audiolist'
 
-Scenario: create audiolist
-    Given path '/create'
-    When method get
-    Then status 200
-    And match response == { type: 'ocap', ocapType: 'AudioListEdit', url: '#notnull' }
-    And def responseUrl = response.url
-
-    # Access created AudioListEdit
-    Given url responseUrl
-    When method get
-    Then status 200
-    And match response == { type: 'AudioListEdit', view_facet: '#notnull', update: '#notnull', contents: '#notnull' }
-    And def responseUrl = response.view_facet
-
-    # Access created AudioListView
-    Given url responseUrl
-    When method get
-    Then status 200
-    And match response == { type: 'AudioListView', contents: '#notnull' }
-
-Scenario: update audiolist
+Scenario: create, update and clean audiolist
+    # Create AudioList
     Given path '/create'
     When method get
     Then status 200
@@ -35,7 +16,7 @@ Scenario: update audiolist
     Given url responseUrl
     When method get
     Then status 200
-    And match response == { type: 'AudioListEdit', view_facet: '#notnull', update: '#notnull', contents: '#notnull' }
+    And match response == { type: 'AudioListEdit', view_facet: '#notnull', update: '#notnull', contents: [] }
     And def updateUrl = response.update
 
     # Create Audio
@@ -59,3 +40,10 @@ Scenario: update audiolist
     When method put
     Then status 200
     And match response == { type: 'AudioListEdit', view_facet: '#notnull', update: '#notnull', contents: [{ type: 'ocap', ocapType: 'AudioView', url: '#(audioViewUrl)' }] }
+
+    # Remove all AudioView from AudioList
+    Given url updateUrl
+    And request { data: { audios: [] } }
+    When method put
+    Then status 200
+    And match response == { type: 'AudioListEdit', view_facet: '#notnull', update: '#notnull', contents: [] }
