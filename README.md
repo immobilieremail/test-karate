@@ -17,5 +17,5 @@ java -jar karate.jar <test-file.feature>
 ```
 
 Karate generate :
-- html files with test coverage in target/cucumber-html-reports.
+- html files with a tests summary in target/cucumber-html-reports.
 - log files in target/surefire-reports
