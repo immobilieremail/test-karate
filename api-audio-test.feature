@@ -5,13 +5,14 @@ Background:
     * url 'http://localhost:' + port + '/api/audio/'
 
 Scenario: create and delete audio
+    # Create audio store
     Given multipart field audio = read('audios/applause.wav')
     When method post
     Then status 200
     And match response == { type: 'ocap', ocapType: 'AudioEdit', url: '#notnull' }
     And def responseUrl = response.url
 
-    # Access created AudioEdit
+    # Access audio edit
     Given url responseUrl
     When method get
     Then status 200
@@ -19,13 +20,13 @@ Scenario: create and delete audio
     And def responseUrl = response.view_facet
     And def deleteAudioUrl = response.delete
 
-    # Access created AudioView
+    # Access audio show
     Given url responseUrl
     When method get
     Then status 200
     And match response == { type: 'AudioView', path: '#notnull' }
 
-    # Delete created Audio
+    # Delete audio
     Given url deleteAudioUrl
     When method delete
     Then status 200

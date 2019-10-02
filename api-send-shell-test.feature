@@ -12,7 +12,7 @@ Scenario: send ocap
     And match response == { type: 'ocap', ocapType: 'Shell', url: '#notnull' }
     And def responseUrl = response.url
 
-# Acces created Shell
+# Access Shell
     Given url responseUrl
     When method get
     Then status 200
@@ -27,7 +27,7 @@ Scenario: send ocap
     And def responseUrl = response.url
     And def responseType = response.ocapType
 
-# Send ocap
+# Send ocap to Shell
     Given url dropbox
     And request {data: [{ocapType: '#(responseType)', ocap: '#(responseUrl)'}]}
     When method post

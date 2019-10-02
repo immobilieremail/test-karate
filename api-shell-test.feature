@@ -5,14 +5,14 @@ Background:
     * url 'http://localhost:' + port + '/api/shell'
 
 Scenario: create, update and clean shell
-# Create shell
+# Create Shell
     Given path '/create'
     When method get
     Then status 200
     And match response == { type: 'ocap', ocapType: 'Shell', url: '#notnull' }
     And def responseUrl = response.url
 
-# Acces created Shell
+# Acces show of Shell
     Given url responseUrl
     When method get
     Then status 200
