@@ -6,8 +6,8 @@ Background:
 
 Scenario: create, update and clean shell
 # Create Shell
-    Given path '/create'
-    When method get
+    Given request {}
+    When method post
     Then status 200
     And match response == { type: 'ocap', ocapType: 'Shell', url: '#notnull' }
     And def responseUrl = response.url
@@ -20,8 +20,8 @@ Scenario: create, update and clean shell
     And def update = response.update
 
 # Create ocap
-    Given url 'http://localhost:' + port + '/api/audiolist/create'
-    When method get
+    Given url 'http://localhost:' + port + '/api/audiolist'
+    When method post
     Then status 200
     And match response == { type: 'ocap', ocapType: 'AudioListEdit', url: '#notnull' }
     And def responseUrl = response.url

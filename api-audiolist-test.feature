@@ -6,13 +6,13 @@ Background:
 
 Scenario: create, update and clean audiolist
     # Create AudioList
-    Given path '/create'
-    When method get
+    Given request {}
+    When method post
     Then status 200
     And match response == { type: 'ocap', ocapType: 'AudioListEdit', url: '#notnull' }
     And def responseUrl = response.url
 
-    # Access edit of AudioList 
+    # Access edit of AudioList
     Given url responseUrl
     When method get
     Then status 200
