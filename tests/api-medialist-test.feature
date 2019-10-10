@@ -53,7 +53,7 @@ Scenario: show unknown medialist
     Given path "/stringaupif/edit"
     When method get
     Then status 404
-    
+
     Given path "/stringaupif"
     When method get
     Then status 404
