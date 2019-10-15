@@ -5,26 +5,26 @@ Background:
     * url 'http://localhost:' + port + '/api/media/'
 
 Scenario: create, show and delete media
-    # Create media store
+    # Create media facet store
     Given multipart field media = read('../media/audio2.wav')
     When method post
     Then status 200
-    And match response == { type: 'ocap', ocapType: 'MediaEdit', url: '#notnull' }
+    And match response == { type: 'ocap', ocapType: 'MediaFacetEdit', url: '#notnull' }
     And def responseUrl = response.url
 
-    # Access media edit
+    # Access media facet edit
     Given url responseUrl
     When method get
     Then status 200
-    And match response == { type: 'MediaEdit', view_facet: '#notnull', path: '#notnull', delete: '#notnull' }
+    And match response == { type: 'MediaFacetEdit', view_facet: '#notnull', path: '#notnull' }
     And def responseUrl = response.view_facet
     And def deleteMediaUrl = response.delete
 
-    # Access media show
+    # Access media facet show
     Given url responseUrl
     When method get
     Then status 200
-    And match response == { type: 'MediaView', path: '#notnull' }
+    And match response == { type: 'MediaFacetView', path: '#notnull' }
 
     # Delete media
     Given url deleteMediaUrl
@@ -44,36 +44,36 @@ Scenario: create bad request media
     Then status 400
 
 Scenario: create image jpg media
-    # Create media store
+    # Create media facet store
     Given multipart field media = read('../media/image.jpg')
     When method post
     Then status 200
-    And match response == { type: 'ocap', ocapType: 'MediaEdit', url: '#notnull' }
+    And match response == { type: 'ocap', ocapType: 'MediaFacetEdit', url: '#notnull' }
 
 Scenario: create image png media
-    # Create media store
+    # Create media facet store
     Given multipart field media = read('../media/image2.png')
     When method post
     Then status 200
-    And match response == { type: 'ocap', ocapType: 'MediaEdit', url: '#notnull' }
+    And match response == { type: 'ocap', ocapType: 'MediaFacetEdit', url: '#notnull' }
 
 Scenario: create video mp4 media
-    # Create media store
+    # Create media facet store
     Given multipart field media = read('../media/video.mp4')
     When method post
     Then status 200
-    And match response == { type: 'ocap', ocapType: 'MediaEdit', url: '#notnull' }
+    And match response == { type: 'ocap', ocapType: 'MediaFacetEdit', url: '#notnull' }
 
 Scenario: create video mpg media
-    # Create media store
+    # Create media facet store
     Given multipart field media = read('../media/video2.mpg')
     When method post
     Then status 200
-    And match response == { type: 'ocap', ocapType: 'MediaEdit', url: '#notnull' }
+    And match response == { type: 'ocap', ocapType: 'MediaFacetEdit', url: '#notnull' }
 
 Scenario: create audio mp3 media
-    # Create media store
+    # Create media facet store
     Given multipart field media = read('../media/audio.mp3')
     When method post
     Then status 200
-    And match response == { type: 'ocap', ocapType: 'MediaEdit', url: '#notnull' }
+    And match response == { type: 'ocap', ocapType: 'MediaFacetEdit', url: '#notnull' }
