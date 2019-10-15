@@ -24,14 +24,14 @@ Scenario: create, update and clean medialist
     And multipart field media = read('../audios/applause.wav')
     When method post
     Then status 200
-    And match response == { type: 'ocap', ocapType: 'MediaEdit', url: '#notnull' }
+    And match response == { type: 'ocap', ocapType: 'MediaFacetEdit', url: '#notnull' }
     And def responseUrl = response.url
 
     # Access edit of Media
     Given url responseUrl
     When method get
     Then status 200
-    And match response == { type: 'MediaEdit', view_facet: '#notnull', path: '#notnull', delete: '#notnull' }
+    And match response == { type: 'MediaFacetEdit', view_facet: '#notnull', path: '#notnull', delete: '#notnull' }
     And def mediaViewUrl = response.view_facet
 
     # Add view Media to MediaList
@@ -39,7 +39,7 @@ Scenario: create, update and clean medialist
     And request { data: { medias: [ { ocap: '#(mediaViewUrl)' } ] } }
     When method put
     Then status 200
-    And match response == { type: 'MediaListEdit', view_facet: '#notnull', update: '#notnull', contents: [{ type: 'ocap', ocapType: 'MediaView', url: '#(mediaViewUrl)' }] }
+    And match response == { type: 'MediaListEdit', view_facet: '#notnull', update: '#notnull', contents: [{ type: 'ocap', ocapType: 'MediaFacetView', url: '#(mediaViewUrl)' }] }
 
     # Remove all Media from MediaList
     Given url updateUrl
