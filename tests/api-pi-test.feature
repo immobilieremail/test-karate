@@ -14,6 +14,13 @@ Scenario: create pi
     And match response == { type: 'ocap', ocapType: 'MediaEditFacet', url: '#notnull' }
     And def mediaUrl = response.url
 
+    # View created Media
+    Given url mediaUrl
+    When method get
+    Then status 200
+    And match response == { type: 'MediaEditFacet', view_facet: '#notnull', path: '#notnull' }
+    And def mediaViewFacet = response.view_facet
+
     # Create OcapList
     Given url basicUrl + '/api/list'
     And request {}
@@ -47,8 +54,8 @@ Scenario: create pi
             description: "Description",
             medias: {
                 type: 'ocap',
-                ocapType: 'MediaEditFacet',
-                url: '#(listUrl)'
+                ocapType: 'MediaViewFacet',
+                url: '#(mediaViewFacet)'
             }
         }
     }
