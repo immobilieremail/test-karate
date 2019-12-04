@@ -2,12 +2,11 @@ Feature: TTMT PI (Point of Interest) integration test
 
 Background:
     * def port = 8000
-    * def basicUrl = 'http://localhost:' + port
-    * url basicUrl + '/api/pi'
+    * url 'http://localhost:' + port + '/api/pi'
 
 Scenario: create pi
     # Create Media
-    Given url basicUrl + '/api/media'
+    Given url 'http://localhost:' + port + '/api/media'
     And multipart field media = read('../media/audio2.wav')
     When method post
     Then status 200
@@ -22,8 +21,8 @@ Scenario: create pi
     And def mediaViewFacet = response.view_facet
 
     # Create OcapList
-    Given url basicUrl + '/api/list'
-    And request {}
+    Given url 'http://localhost:' + port + '/api/list'
+    Given request {}
     When method post
     Then status 200
     And match response == { type: 'ocap', ocapType: 'OcapListEditFacet', url: '#notnull' }
@@ -36,7 +35,8 @@ Scenario: create pi
     Then status 204
 
     # Create PI
-    Given request { data : { title: "Title", description: "Description", medias: "#(listUrl)" } }
+    Given url 'http://localhost:' + port + '/api/pi'
+    And request { title: "Title", description: "Description", address: "46 Quai Jacquoutot", medias: "#(listUrl)" }
     When method post
     Then status 200
     And match response == { type: 'ocap', ocapType: 'PIEditFacet', url: '#notnull' }
@@ -46,16 +46,4 @@ Scenario: create pi
     Given url piUrl
     When method get
     Then status 200
-    And match response == {
-        type: 'PIEditFacet',
-        view_facet: '#notnull',
-        data: {
-            title: "Title",
-            description: "Description",
-            medias: {
-                type: 'ocap',
-                ocapType: 'MediaViewFacet',
-                url: '#(mediaViewFacet)'
-            }
-        }
-    }
+    And match response == { type: 'PIEditFacet', view_facet: '#notnull', data: { title: "Title", description: "Description", address: "46 Quai Jacquoutot", medias: [{ type: 'ocap', ocapType: 'MediaViewFacet', url: '#(mediaViewFacet)' }] } }
