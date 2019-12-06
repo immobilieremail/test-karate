@@ -72,7 +72,7 @@ Scenario: create travel
 
     # Create Travel
     Given url 'http://localhost:' + port + '/api/travel'
-    And request { title: 'New Travel', list: '#(listPiUrl)' }
+    And request { title: 'New Travel', pis: '#(listPiUrl)' }
     When method post
     Then status 200
     And match response == { type: 'ocap', ocapType: 'TravelEditFacet', url: '#notnull' }
@@ -82,4 +82,4 @@ Scenario: create travel
     Given url travelUrl
     When method get
     Then status 200
-    And match response == { type: 'TravelEditFacet', view_facet: '#notnull', data: [ title: 'New Travel', list: '#(viewPiUrl)' ] }
+    And match response == { type: 'TravelEditFacet', view_facet: '#notnull', data: [ title: 'New Travel', pis: '#(viewPiUrl)' ] }
