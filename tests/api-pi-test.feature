@@ -17,7 +17,7 @@ Scenario: create pi
     Given url mediaUrl
     When method get
     Then status 200
-    And match response == { type: 'MediaEditFacet', view_facet: '#notnull', path: '#notnull' }
+    And match response == { type: 'MediaEditFacet', view_facet: '#notnull', media_type: "audio", path: '#notnull' }
     And def mediaViewFacet = response.view_facet
 
     # Create OcapList
