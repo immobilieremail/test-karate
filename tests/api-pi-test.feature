@@ -28,6 +28,13 @@ Scenario: create pi
     And match response == { type: 'ocap', ocapType: 'OcapListEditFacet', url: '#notnull' }
     And def listUrl = response.url
 
+    # Access created OcapList
+    Given url listUrl
+    When method get
+    Then status 200
+    And match response == { type: 'OcapListEditFacet', view_facet: '#notnull', contents: [] }
+    And def viewListUrl = response.view_facet
+
     # Add Media to OcapList
     Given url listUrl
     And request { ocaps: [ '#(mediaUrl)' ] }
@@ -46,4 +53,4 @@ Scenario: create pi
     Given url piUrl
     When method get
     Then status 200
-    And match response == { type: 'PIEditFacet', view_facet: '#notnull', data: { title: "Title", description: "Description", address: "46 Quai Jacquoutot", medias: [{ type: 'ocap', ocapType: 'MediaViewFacet', url: '#(mediaViewFacet)' }] } }
+    And match response == { type: 'PIEditFacet', view_facet: '#notnull', data: { title: "Title", description: "Description", address: "46 Quai Jacquoutot", medias: "#(viewListUrl)" } }
