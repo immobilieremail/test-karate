@@ -5,21 +5,6 @@ Background:
     * url 'http://localhost:' + port + '/api/pi'
 
 Scenario: create pi
-    # Create Media
-    Given url 'http://localhost:' + port + '/api/media'
-    And multipart field media = read('../media/audio2.wav')
-    When method post
-    Then status 200
-    And match response == { type: 'ocap', ocapType: 'MediaEditFacet', url: '#notnull' }
-    And def mediaUrl = response.url
-
-    # View created Media
-    Given url mediaUrl
-    When method get
-    Then status 200
-    And match response == { type: 'MediaEditFacet', view_facet: '#notnull', media_type: "audio", path: '#notnull' }
-    And def mediaViewFacet = response.view_facet
-
     # Create OcapList
     Given url 'http://localhost:' + port + '/api/list'
     Given request {}
@@ -34,12 +19,6 @@ Scenario: create pi
     Then status 200
     And match response == { type: 'OcapListEditFacet', view_facet: '#notnull', contents: [] }
     And def viewListUrl = response.view_facet
-
-    # Add Media to OcapList
-    Given url listUrl
-    And request { ocaps: [ '#(mediaUrl)' ] }
-    When method put
-    Then status 204
 
     # Create PI
     Given url 'http://localhost:' + port + '/api/pi'
