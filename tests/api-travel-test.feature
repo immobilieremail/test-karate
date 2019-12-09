@@ -70,9 +70,16 @@ Scenario: create travel
     When method put
     Then status 204
 
+    # Access PI OcapList edit facet
+    Given url piListUrl
+    When method get
+    Then status 200
+    And match response == { type: 'OcapListEditFacet', view_facet: '#notnull', contents: [ { type:'ocap', ocapType: 'PIEditFacet', url: '#(piUrl)' } ] }
+    And def viewPiListUrl = response.view_facet
+
     # Create Travel
     Given url 'http://localhost:' + port + '/api/travel'
-    And request { title: 'New Travel', pis: '#(listPiUrl)' }
+    And request { title: 'New Travel', pis: '#(piListUrl)' }
     When method post
     Then status 200
     And match response == { type: 'ocap', ocapType: 'TravelEditFacet', url: '#notnull' }
@@ -82,4 +89,4 @@ Scenario: create travel
     Given url travelUrl
     When method get
     Then status 200
-    And match response == { type: 'TravelEditFacet', view_facet: '#notnull', data: [ title: 'New Travel', pis: '#(viewPiUrl)' ] }
+    And match response == { type: 'TravelEditFacet', view_facet: '#notnull', data: { title: 'New Travel', pis: '#(viewPiListUrl)' } }
