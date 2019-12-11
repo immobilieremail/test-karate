@@ -21,9 +21,17 @@ Scenario: create travel
     And match response == { type: 'ocap', ocapType: 'OcapListEditFacet', url: '#notnull' }
     And def contactListUrl = response.url
 
+    # Create new User
+    Given url basicUrl + '/api/user'
+    Given request { name: 'Billy', email: 'billy.thekid@example.com' }
+    When method post
+    Then status 200
+    And match response == { type: 'ocap', ocapType: 'UserProfileFacet', url: '#notnull' }
+    And def userUrl = response.url
+
     # Create new shell
     Given url 'http://localhost:' + port + '/api/shell'
-    Given request { travels: '#(travelListUrl)', contacts: '#(contactListUrl)' }
+    Given request { user: '#(userUrl)', travels: '#(travelListUrl)', contacts: '#(contactListUrl)' }
     When method post
     Then status 200
     And match response == { type: 'ocap', ocapType: 'ShellUserFacet', url: '#notnull' }
@@ -33,7 +41,17 @@ Scenario: create travel
     Given url shellUrl
     When method get
     Then status 200
-    And match response == { type: 'ShellUserFacet', data: { travels: '#(travelListUrl)', contacts: '#(contactListUrl)' } }
+    And match response ==
+    """
+        {
+            type: 'ShellUserFacet',
+            data: {
+                user: '#(userUrl)',
+                travels: '#(travelListUrl)',
+                contacts: '#(contactListUrl)'
+            }
+        }
+    """
 
     # Update shell travels & contacts list
     Given url shellUrl
@@ -45,4 +63,14 @@ Scenario: create travel
     Given url shellUrl
     When method get
     Then status 200
-    And match response == { type: 'ShellUserFacet', data: { travels: '#(contactListUrl)', contacts: '#(travelListUrl)' } }
+    And match response ==
+    """
+        {
+            type: 'ShellUserFacet',
+            data: {
+                user: '#(userUrl)',
+                travels: '#(contactListUrl)',
+                contacts: '#(travelListUrl)'
+            }
+        }
+    """
