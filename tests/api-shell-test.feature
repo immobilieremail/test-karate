@@ -34,3 +34,15 @@ Scenario: create travel
     When method get
     Then status 200
     And match response == { type: 'ShellUserFacet', data: { travels: '#(travelListUrl)', contacts: '#(contactListUrl)' } }
+
+    # Update shell travels & contacts list
+    Given url shellUrl
+    Given request { travels: '#(contactListUrl)', contacts: '#(travelListUrl)' }
+    When method put
+    Then status 204
+
+    # Access updated shell user facet
+    Given url shellUrl
+    When method get
+    Then status 200
+    And match response == { type: 'ShellUserFacet', data: { travels: '#(contactListUrl)', contacts: '#(travelListUrl)' } }
