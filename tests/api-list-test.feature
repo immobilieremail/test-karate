@@ -36,7 +36,20 @@ Scenario: create, update and clean list
     Given url commonUrl
     When method get
     Then status 200
-    And match response == { type: 'OcapListEditFacet', view_facet: '#notnull', contents: [{ type: "ocap", ocapType: "MediaEditFacet", url: "#(responseUrl)" }] }
+    And match response ==
+    """
+        {
+            type: 'OcapListEditFacet',
+            view_facet: '#notnull',
+            contents: [
+                {
+                    type: "ocap",
+                    ocapType: "MediaEditFacet",
+                    url: "#(responseUrl)"
+                }
+            ]
+        }
+    """
 
     # Remove all Media from OcapList
     Given url commonUrl

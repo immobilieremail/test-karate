@@ -17,7 +17,19 @@ Scenario: create travel
     Given url piUrl
     When method get
     Then status 200
-    And match response == { type: 'PIEditFacet', view_facet: '#notnull', data: { title: 'Title', description: 'Description', address: '46 Quai Jacquoutot', medias: '#null' } }
+    And match response ==
+    """
+        {
+            type: 'PIEditFacet',
+            view_facet: '#notnull',
+            data: {
+                title: 'Title',
+                description: 'Description',
+                address: '46 Quai Jacquoutot',
+                medias: '#null'
+            }
+        }
+    """
     And def viewPiUrl = response.view_facet
 
     # Create OcapList for PI
@@ -38,7 +50,20 @@ Scenario: create travel
     Given url piListUrl
     When method get
     Then status 200
-    And match response == { type: 'OcapListEditFacet', view_facet: '#notnull', contents: [ { type:'ocap', ocapType: 'PIEditFacet', url: '#(piUrl)' } ] }
+    And match response ==
+    """
+        {
+            type: 'OcapListEditFacet',
+            view_facet: '#notnull',
+            contents: [
+                {
+                    type:'ocap',
+                    ocapType: 'PIEditFacet',
+                    url: '#(piUrl)'
+                }
+            ]
+        }
+    """
     And def viewPiListUrl = response.view_facet
 
     # Create Travel
@@ -53,4 +78,14 @@ Scenario: create travel
     Given url travelUrl
     When method get
     Then status 200
-    And match response == { type: 'TravelEditFacet', view_facet: '#notnull', data: { title: 'New Travel', pis: '#(viewPiListUrl)' } }
+    And match response ==
+    """
+        {
+            type: 'TravelEditFacet',
+            view_facet: '#notnull',
+            data: {
+                title: 'New Travel',
+                pis: '#(viewPiListUrl)'
+            }
+        }
+    """

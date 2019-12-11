@@ -32,4 +32,16 @@ Scenario: create pi
     Given url piUrl
     When method get
     Then status 200
-    And match response == { type: 'PIEditFacet', view_facet: '#notnull', data: { title: "Title", description: "Description", address: "46 Quai Jacquoutot", medias: "#(viewListUrl)" } }
+    And match response ==
+    """
+    {
+        type: 'PIEditFacet',
+        view_facet: '#notnull',
+        data: {
+            title: "Title",
+            description: "Description",
+            address: "46 Quai Jacquoutot",
+            medias: "#(viewListUrl)"
+        }
+    }
+    """
