@@ -45,6 +45,7 @@ Scenario: create travel
     """
         {
             type: 'ShellUserFacet',
+            url: '#(shellUrl)',
             data: {
                 user: '#(userUrl)',
                 travels: '#(travelListUrl)',
@@ -67,6 +68,7 @@ Scenario: create travel
     """
         {
             type: 'ShellUserFacet',
+            url: '#(shellUrl)',
             data: {
                 user: '#(userUrl)',
                 travels: '#(contactListUrl)',

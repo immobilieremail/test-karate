@@ -17,7 +17,7 @@ Scenario: create pi
     Given url listUrl
     When method get
     Then status 200
-    And match response == { type: 'OcapListEditFacet', view_facet: '#notnull', contents: [] }
+    And match response == { type: 'OcapListEditFacet', url: '#(listUrl)', view_facet: '#notnull', contents: [] }
     And def viewListUrl = response.view_facet
 
     # Create PI
@@ -36,6 +36,7 @@ Scenario: create pi
     """
     {
         type: 'PIEditFacet',
+        url: '#(piUrl)',
         view_facet: '#notnull',
         data: {
             title: "Title",

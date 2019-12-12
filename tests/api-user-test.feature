@@ -21,6 +21,7 @@ Scenario: create travel
     """
     {
         type: 'UserProfileFacet',
+        url: '#(userUrl)',
         data: {
             name: 'Billy',
             email: 'billy.thekid@example.com',

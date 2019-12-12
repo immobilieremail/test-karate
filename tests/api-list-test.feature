@@ -16,7 +16,7 @@ Scenario: create, update and clean list
     Given url commonUrl
     When method get
     Then status 200
-    And match response == { type: 'OcapListEditFacet', view_facet: '#notnull', contents: [] }
+    And match response == { type: 'OcapListEditFacet', url: '#(commonUrl)', view_facet: '#notnull', contents: [] }
 
     # Create Media
     Given url 'http://localhost:' + port + '/api/media'
@@ -40,6 +40,7 @@ Scenario: create, update and clean list
     """
         {
             type: 'OcapListEditFacet',
+            url: '#(commonUrl)',
             view_facet: '#notnull',
             contents: [
                 {
@@ -61,7 +62,7 @@ Scenario: create, update and clean list
     Given url commonUrl
     When method get
     Then status 200
-    And match response == { type: 'OcapListEditFacet', view_facet: '#notnull', contents: [] }
+    And match response == { type: 'OcapListEditFacet', url: '#(commonUrl)', view_facet: '#notnull', contents: [] }
 
 Scenario: show unknown list
     # Access unknown edit of OcapList

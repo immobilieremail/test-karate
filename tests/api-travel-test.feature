@@ -21,6 +21,7 @@ Scenario: create travel
     """
         {
             type: 'PIEditFacet',
+            url: '#(piUrl)',
             view_facet: '#notnull',
             data: {
                 title: 'Title',
@@ -54,6 +55,7 @@ Scenario: create travel
     """
         {
             type: 'OcapListEditFacet',
+            url: '#(piListUrl)',
             view_facet: '#notnull',
             contents: [
                 {
@@ -82,6 +84,7 @@ Scenario: create travel
     """
         {
             type: 'TravelEditFacet',
+            url: '#(travelUrl)',
             view_facet: '#notnull',
             data: {
                 title: 'New Travel',

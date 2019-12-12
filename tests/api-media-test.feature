@@ -16,14 +16,31 @@ Scenario: create, show and delete media
     Given url responseEditUrl
     When method get
     Then status 200
-    And match response == { type: 'MediaEditFacet', view_facet: '#notnull', media_type: "audio", path: '#notnull' }
+    And match response ==
+    """
+        {
+            type: 'MediaEditFacet',
+            url: '#(responseEditUrl)',
+            view_facet: '#notnull',
+            media_type: "audio",
+            path: '#notnull'
+        }
+    """
     And def responseUrl = response.view_facet
 
     # Access media facet show
     Given url responseUrl
     When method get
     Then status 200
-    And match response == { type: 'MediaViewFacet', media_type: "audio", path: '#notnull' }
+    And match response ==
+    """
+        {
+            type: 'MediaViewFacet',
+            url: '#(responseUrl)',
+            media_type: "audio",
+            path: '#notnull'
+        }
+    """
 
     # Delete media
     Given url responseEditUrl
