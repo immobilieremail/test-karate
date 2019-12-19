@@ -13,13 +13,6 @@ Scenario: create pi
     And match response == { type: 'ocap', ocapType: 'OcapListEditFacet', url: '#notnull' }
     And def listUrl = response.url
 
-    # Access created OcapList
-    Given url listUrl
-    When method get
-    Then status 200
-    And match response == { type: 'OcapListEditFacet', url: '#(listUrl)', view_facet: '#notnull', contents: [] }
-    And def viewListUrl = response.view_facet
-
     # Create PI
     Given url 'http://localhost:' + port + '/api/pi'
     And request { title: "Title", description: "Description", address: "46 Quai Jacquoutot", medias: "#(listUrl)" }
@@ -42,7 +35,7 @@ Scenario: create pi
             title: "Title",
             description: "Description",
             address: "46 Quai Jacquoutot",
-            medias: "#(viewListUrl)"
+            medias: "#(listUrl)"
         }
     }
     """

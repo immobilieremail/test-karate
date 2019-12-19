@@ -49,7 +49,9 @@ Scenario: create travel
             data: {
                 user: '#(userUrl)',
                 travels: '#(travelListUrl)',
-                contacts: '#(contactListUrl)'
+                contacts: '#(contactListUrl)',
+                dropbox: '#notnull',
+                invitation: '#notnull'
             }
         }
     """
@@ -72,7 +74,9 @@ Scenario: create travel
             data: {
                 user: '#(userUrl)',
                 travels: '#(contactListUrl)',
-                contacts: '#(travelListUrl)'
+                contacts: '#(travelListUrl)',
+                dropbox: '#notnull',
+                invitation: '#notnull'
             }
         }
     """
