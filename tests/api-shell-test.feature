@@ -51,7 +51,9 @@ Scenario: create travel
                 travels: '#(travelListUrl)',
                 contacts: '#(contactListUrl)',
                 dropbox: '#notnull',
-                invitation: '#notnull'
+                invitation: '#notnull',
+                recipients: [],
+                sender: '#null'
             }
         }
     """
@@ -76,7 +78,39 @@ Scenario: create travel
                 travels: '#(contactListUrl)',
                 contacts: '#(travelListUrl)',
                 dropbox: '#notnull',
-                invitation: '#notnull'
+                invitation: '#notnull',
+                recipients: [],
+                sender: '#null'
+            }
+        }
+    """
+    And def invitationUrl = response.data.invitation
+
+    # Create invitation
+    Given url invitationUrl
+    And request {}
+    When method post
+    Then status 200
+
+    # Access updated shell user facet
+    Given url shellUrl
+    When method get
+    Then status 200
+    And match response ==
+    """
+        {
+            type: 'ShellUserFacet',
+            url: '#(shellUrl)',
+            data: {
+                user: '#(userUrl)',
+                travels: '#(contactListUrl)',
+                contacts: '#(travelListUrl)',
+                dropbox: '#notnull',
+                invitation: '#notnull',
+                recipients: [
+                    '#notnull'
+                ],
+                sender: '#null'
             }
         }
     """
